@@ -1,0 +1,24 @@
+Use WebAssembly with Go:
+
+    1) Create a generic project with main.go, index.html, script.js
+    2) go mod init [NAME]
+    3) Copy the wasm_exe file: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+    4) Create the main.wasm file: GOOS=js GOARCH=wasm go build -o [PATH]
+    5) The index page has to point to the js files script.js and wasm_exec.js:
+        <script src=[PATH]> </script> // wasm_exec has to be the first !!!
+    6) Instantiate Go with javascript:
+        const goWasm = new Go()
+
+        WebAssembly.instantiateStreaming(fetch("main.wasm"), goWasm.importObject)
+        .then((result) => { goWasm.run(result.instance) })
+    7) If you chane the main.go file redo step 4)
+    +) When wanna use your own package you have to include it with [NAME]/[PKG NAME] where [NAME] is given in step 2)
+    
+Other:
+	0) The name of the database: 
+	1) Start the server with: sudo systemctl start postgresql-14
+	2) sudo -u postgres psql
+	3) CREATE USER rikk WITH PASSWORD 'pw123';
+	4) CREATE DATABASE masdb OWNER rikk;
+	5) PostgreSQL operates on port 5432 (or whatever else you set in your postgresql.conf). (/var/lib/pgsql/data/postgresql.conf) 
+	6) Start a cmd window with the db: psql masdb

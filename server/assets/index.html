@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Multi Agent System</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <h3>Multi Agent Server</h3>
+                <strong>MS</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a class="dropdown-toggle" href="#slideShow" role="button"  data-slide-to="0">
+                        <i class="fas fa-solid fa-eye"></i>
+                       Rewatch Match
+                    </a>
+                </li>
+                <li class="active">
+                    <a class="dropdown-toggle" href="#slideShow" role="button"  data-slide-to="1">
+                        <i class="fas fa-solid fa-map"></i>
+                        Map Editor
+                    </a>
+                </li>
+                <li class="active">
+                    <a class="dropdown-toggle" href="#slideShow" role="button"  data-slide-to="2">
+                        <i class="fas fa-solid fa-chart-line"></i> 
+                        Analyze Match
+                    </a>
+                </li>
+                <li class="active">
+                    <a class="dropdown-toggle" href="#slideShow" role="button"  data-slide-to="3">
+                        <i class="fas fa-solid fa-wrench"></i>
+                        Change Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-copy"></i>
+                        Pages
+                    </a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a id="sidebarCollapse" href="#">
+                        <i class="fas fa-solid fa-bars"></i>
+                        Toggle Sidebar
+                    </a>
+                   
+                </li>
+            </ul>
+
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <div class="w-100 d-flex justify-content-center align-items-center">          
+                <div id="slideShow" class="carousel slide w-100 h-100" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner w-100 h-100 d-flex justify-content-center align-items-center">
+                        
+                        <!--REWATCH MATCH -->
+                        <div class="carousel-item w-100 h-100 active">               
+                            <div class="container-fluid">
+                                <div class="row">
+                                      
+                                    <div class="col-md-3">
+                                        <div class="form-row mb-3">
+                                            <div class="col-md">
+                                                <input type="number" class="form-control" id="matchID" aria-describedby="matchIDHelp" placeholder="Match ID">
+                                                <small id="matchIDHelp" class="form-text text-muted">The list of ids can be found in the Settings menu.</small>
+                                            </div>
+                                            <div class="col-md">
+                                                <button id="loadMatchBtn" type="button" class="btn btn-primary" onclick='GetMatchByIDAPI()'>
+                                                    Load Match <i class="fas fa-solid fa-download"></i> 
+                                                </button>
+                                            </div>                                 
+                                        </div>
+
+                                        <hr/>
+                                        
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                <div class="form-row justify-content-md-center">
+                                                    <div class="col-md-auto">
+                                                        <button id="" type="button" class="btn btn-primary" onclick=''><i class="fas fa-solid  fa-backward"></i> </button>
+                                                    </div>
+                                                    <div class="col-md-auto">
+                                                        <button id="" type="button" class="btn btn-primary" onclick=''><i class="fas fa-solid fa-play"></i> </button> 
+                                                    </div>
+                                                    <div class="col-md-auto">
+                                                        <button id="" type="button" class="btn btn-primary" onclick=''><i class="fas fa-solid fa-forward"></i> </button>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+
+                                           
+                                            <div class="col-md-6 border-left">
+                                                <div class="form-row counter justify-content-md-center">
+                                                    <div class="col-md-auto">
+                                                        <i class="fas fa-solid fa-shoe-prints fa-2x"></i>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-auto">
+                                                        <div class="form-row">
+                                                            <h2 id="match-curr-step" class="timer count-title count-number mr-1">0</h2>
+                                                            <h2 class="timer count-title count-number mr-1">/</h2>
+                                                            <h2 id="match-last-step" class="timer count-title count-number ">100</h2>
+                                                        </div>
+                                                    </div>                                           
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-9">
+                                        <div class="form-row">
+                                            <div class="col-md">
+                                                <div class="card" style="border-color: var(--team-color-1); font-size: x-small;">
+                                                    <div class="card-header">Team 1</div>
+                                                    <div class="card-body text-dark">
+                                                        <form class="form-row">
+                                                            <div class="col-md-6">Name:</div>
+                                                            <output id="match-team-0" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Base Healt:</div>
+                                                            <output id="match-base-0"  class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Builder units:</div>
+                                                            <output id="match-build-0" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Defender Units:</div>
+                                                            <output id="match-def-0" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Resources:</div>
+                                                            <output id="match-res-0" class="col-md-6 text-truncate"></output>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md">
+                                                <div class="card" style="border-color: var(--team-color-2);  font-size: x-small;">
+                                                    <div class="card-header">Team 2</div>
+                                                    <div class="card-body text-dark">
+                                                        <form class="form-row">
+                                                            <div class="col-md-6">Name:</div>
+                                                            <output id="match-team-1" class="col-md-6 text-truncate"></output>
+                                                            
+                                                            <div class="col-md-6">Base Healt:</div>
+                                                            <output id="match-base-1"  class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Builder units:</div>
+                                                            <output id="match-build-1" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Defender Units:</div>
+                                                            <output id="match-def-1" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Resources:</div>
+                                                            <output id="match-res-1" class="col-md-6 text-truncate"></output>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md">
+                                                <div class="card" style="border-color: var(--team-color-3);  font-size: x-small;">
+                                                    <div class="card-header">Team 3</div>
+                                                    <div class="card-body text-dark">
+                                                        <form class="form-row">
+                                                            <div class="col-md-6">Name:</div>
+                                                            <output id="match-team-2" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Base Healt:</div>
+                                                            <output id="match-base-2"  class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Builder units:</div>
+                                                            <output id="match-build-2" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Defender Units:</div>
+                                                            <output id="match-def-2" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Resources:</div>
+                                                            <output id="match-res-2" class="col-md-6 text-truncate"></output>
+                                                        </form>
+                                                    </div>
+                                                </div>                                       
+                                            </div>
+    
+                                            <div class="col-md">
+                                                <div class="card" style="width: 100%; border-color: var(--team-color-4);  font-size: x-small;">
+                                                    <div class="card-header">Team 4</div>
+                                                    <div class="card-body text-dark">
+                                                        <form class="form-row">
+                                                            <div class="col-md-6">Name:</div>
+                                                            <output id="match-team-3" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Base Healt:</div>
+                                                            <output id="match-base-3"  class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Builder units:</div>
+                                                            <output id="match-build-3" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Defender Units:</div>
+                                                            <output id="match-def-3" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Resources:</div>
+                                                            <output id="match-res-3" class="col-md-6 text-truncate"></output>
+                                                        </form>
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+    
+                                            <div class="col-md">
+                                                <div class="card" style="border-color: var(--team-color-5);  font-size: x-small;">
+                                                    <div class="card-header">Team 5</div>
+                                                    <div class="card-body text-dark">
+                                                        <form class="form-row">
+                                                            <div class="col-md-6">Name:</div>
+                                                            <output id="match-team-4" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Base Healt:</div>
+                                                            <output id="match-base-4"  class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Builder units:</div>
+                                                            <output id="match-build-4" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Defender Units:</div>
+                                                            <output id="match-def-4" class="col-md-6 text-truncate"></output>
+
+                                                            <div class="col-md-6">Resources:</div>
+                                                            <output id="match-res-4" class="col-md-6 text-truncate"></output>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                              </div>
+                            </div>
+
+                            <hr />
+                            <div id="" class="d-flex align-self-center justify-content-center align-items-center">
+                                <div id="matchGrid" class="gridM"></div>
+                            </div>
+
+                        </div>
+
+                        <!--MAP CREATOR-->
+                        <div class="carousel-item w-100 h-100"> 
+                           <div class="list">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6 d-flex align-self-start justify-content-center align-items-center">
+                                            <form class="w-100">
+                                                <h2 class="mt-5">Creator Tools</h2>
+                                                <hr />
+                                                <div class="form-row">
+                                                    <div class="col-md">
+                                                        <input type="text" class="form-control" id="mapName" aria-describedby="mapNameHelp" placeholder="Enter a name">
+                                                        <small id="mapNameHelp" class="form-text text-muted">Enter a name for the given map.</small>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <input type="number" class="form-control" id="mapCols" aria-describedby="mapColsHelp" placeholder="Enter a number" onfocusout="validateInput('mapCols', 10, 300);">
+                                                        <small id="mapColsHelp" class="form-text text-muted">The number of columns of the map. Between 10 and 300.</small>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <input type="number" class="form-control" id="mapRows" aria-describedby="mapRowsHelp" placeholder="Enter a name" onfocusout="validateInput('mapRows', 10, 300);">
+                                                        <small id="mapRowsHelp" class="form-text text-muted">The number of rows of the map. Between 10 and 300. </small>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='RenderEmptyMap()'>New Map</button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='PostMapAPI("\\maps")'>Save Map</button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='MapStateSetActive(0)'>Base <span id="addBaseBtn" class="badge badge-light">0</span></button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='MapStateSetActive(1)'>Obstacle <span id="addObsBtn" class="badge badge-light">0</span></button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='MapStateSetActive(2)'>Mine <span id="addMineBtn" class="badge badge-light">0</span></button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='MapStateSetActive(3)'>Resource <span id="addResrcBtn" class="badge badge-light">0</span></button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button type="button" class="form-control btn btn-primary" onclick='MapStateSetActive(4)'>Monster <span id="addMonBtn" class="badge badge-light">0</span></button>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button id="clearMapBtn" type="button" class="form-control btn btn-danger" onclick='MapStateSetActive(5)'>Clear <i class="fas fa-solid fa-trash"></i></button>
+                                                    </div>                                                     
+                                                </div>
+                                            </form>                                          
+                                        </div>
+                                        <div class="col-md-6 d-flex align-self-start justify-content-center align-items-center">
+                                            <form class="w-100">
+                                                <h2 class="mt-5">Map Visualizer</h2>
+                                                <hr />
+                                                <div class="form-row mb-5">
+                                                    <div class="col-md">
+                                                        <input type="number" class="form-control" id="mapIDVis" aria-describedby="mapIDVisHelp" placeholder="Enter a number">
+                                                        <small id="mapIDVisHelp" class="form-text text-muted">The ID of the map to be loaded. </small>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <button id="loadMapBtn" type="button" class="btn btn-primary" onclick="GetMapByIDAPI()">Load Map</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>    
+                                    </div>
+
+                                    <h2 class="mt-5">Map</h2>
+                                    <hr />
+                                    <div class="d-flex align-self-center justify-content-center align-items-center mapArea">
+                                        <div id="mapGrid" class="gridP"></div>
+                                    </div>
+                                   
+                                </div>
+                            </div>                 
+                        </div>
+                    
+                        <!--ANALYZE MATCH -->
+                        <div class="carousel-item w-100 h-100"> 
+                           <div class="container-fluid list">
+                               <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-row mb-3">
+                                            <div class="col-md">
+                                                <input type="number" class="form-control" id="matchID" aria-describedby="matchIDHelp" placeholder="Match ID">
+                                                <small id="matchIDHelp" class="form-text text-muted">The list of ids can be found in the Settings menu.</small>
+                                            </div>
+                                            <div class="col-md">
+                                                <button id="loadMatchBtn" type="button" class="btn btn-primary" onclick=''>Load Match <i class="fas fa-solid fa-download"></i> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr />
+
+                           
+                               <div class="row">
+                                    <div class="col-md d-flex justify-content-center align-items-center">
+                                        <div class="w-75">
+                                            <h2 class="mt-5">Resources collected by the teams. </h2>
+                                            <hr />
+                                            <div id="resourceGraph" class="d-flex justify-content-center align-items-center"></div>
+                                        </div>
+                                    </div>
+                               </div>
+                           </div>
+                        </div>
+                    
+                        <!--SETTINGS-->
+                        <div class="carousel-item w-100 h-100">
+                            <div class="h-100 d-flex align-self-center justify-content-center align-items-center">
+                                <div class="container-fluid list">
+                                    <div class="row">
+                                        <div class="col-md d-flex align-self-center justify-content-center align-items-center">
+                                            <form id="gameSettingsForm" class="w-50">
+                                                <h2 class="mt-5">Game Settings</h2>
+                                                <hr />
+                                                <div class="form-group">
+                                                    <label for="BaseHp">Base Health</label>
+                                                    <input type="number" class="form-control" id="BaseHp" aria-describedby="BaseHpHelp" placeholder="Enter a number" onfocusout="validateInput('BaseHp', 1, 50);">
+                                                    <small id="BaseHpHelp" class="form-text text-muted">The health of each base. It has to be at least 1 and at most 50. </small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="VisRange">Vision Range</label>
+                                                    <input type="number" class="form-control" id="VisRange" aria-describedby="VisRangeHelp" placeholder="Enter a number" onfocusout="validateInput('VisRange', 1, 50);">
+                                                    <small id="VisRangeHelp" class="form-text text-muted">The range of vision of all units. Must be between 1 and 50. </small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="MaxStep">Maximum Step Count</label>
+                                                    <input type="number" class="form-control" id="MaxStep" aria-describedby="MaxStepHelp" placeholder="Enter a number" onfocusout="validateInput('MaxStep', 1, 50000);">
+                                                    <small id="MaxStepHelp" class="form-text text-muted">The maximum number of steps in the match. If reached without a winner the alternative win condition is used. </small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="AltWin">Alternative Win Conditions</label>
+                                                    <select id="AltWin" class="custom-select">
+                                                        <option value="1" selected>Economic Victory</option> <!--Who has more money-->
+                                                        <option value="2">Military Victory</option> <!--Who has more units-->
+                                                        <option value="3">Glory Victory</option> <!--Who has killed more teams or monsters or units-->
+                                                    </select>
+                                                    <small id="AltWinHelp" class="form-text text-muted">After the Maximum Step Count has been reached the victor is selected by this condition. </small>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="DefHp">Defender Unit</label>
+                                                        <input type="number" class="form-control" id="DefHp" aria-describedby="DefHpHelp"  placeholder="Enter a number" onfocusout="validateInput('DefHp', 1, 50);">
+                                                        <small id="DefHpHelp" class="form-text text-muted">The health of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="DefAtk">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="DefAtk" aria-describedby="DefAtkHelp"  placeholder="Enter a number" onfocusout="validateInput('DefAtk', 1, 50);">
+                                                        <small id="DefAtkHelp" class="form-text text-muted">The attack damage of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="DefCost">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="DefCost" aria-describedby="DefCostHelp"  placeholder="Enter a number" onfocusout="validateInput('DefCost', 1, 50);">
+                                                        <small id="DefCostHelp" class="form-text text-muted">The cost of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="DefRange">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="DefRange" aria-describedby="DefRangeHelp"  placeholder="Enter a number" onfocusout="validateInput('DefRange', 1, 50);">
+                                                        <small id="DefRangeHelp" class="form-text text-muted">The attack range of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="BuildHp">Builder Unit</label>
+                                                        <input type="number" class="form-control" id="BuildHp" aria-describedby="BuildHpHelp"  placeholder="Enter a number" onfocusout="validateInput('BuildHp', 1, 50);">
+                                                        <small id="BuildHpHelp" class="form-text text-muted">The health of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="BuildAtk">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="BuildAtk" aria-describedby="BuildAtkHelp"  placeholder="Enter a number" onfocusout="validateInput('BuildAtk', 1, 50);">
+                                                        <small id="BuildAtkHelp" class="form-text text-muted">The attack damage of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="BuildCost">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="BuildCost" aria-describedby="BuildCostHelp"  placeholder="Enter a number" onfocusout="validateInput('BuildCost', 1, 50);">
+                                                        <small id="BuildCostHelp" class="form-text text-muted">The cost of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="BuildCap">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="BuildCap" aria-describedby="BuildCapHelp"  placeholder="Enter a number" onfocusout="validateInput('BuildCap', 1, 50);">
+                                                        <small id="BuildCapHelp" class="form-text text-muted">The carrying capacity of the unit.  Must be between 1 and 50.  </small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="MonstHp">Monster Unit</label>
+                                                        <input type="number" class="form-control" id="MonstHp" aria-describedby="MonstHpHelp"  placeholder="Enter a number" onfocusout="validateInput('MonstHp', 1, 50);">
+                                                        <small id="MonstHpHelp" class="form-text text-muted">The health of the unit. Must be between 1 and 50.  </small>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="MonstAtk">&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="number" class="form-control" id="MonstAtk" aria-describedby="MonstAtkHelp"  placeholder="Enter a number" onfocusout="validateInput('MonstAtk', 1, 50);">
+                                                        <small id="MonstAtkHelp" class="form-text text-muted">The attack damage of the unit. Must be between 1 and 50.  </small>
+                                                    </div>
+                                                </div>
+                                               
+                                                <div class="form-group">
+                                                    <label for="LogFreq">Log Frequency</label>
+                                                    <input type="number" class="form-control" id="LogFreq" aria-describedby="LogFreqHelp"  placeholder="Enter a number" onfocusout="validateInput('LogFreq', 1, 1000);">
+                                                    <small id="LogFreqHelp" class="form-text text-muted">The log informations will be updated after every N steps. Must be between 1 and 1000.  </small>
+                                                </div>
+                                               
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-md-auto">
+                                                        <button id="saveSettingsBtn" type="button" class="btn btn-primary" onclick="postSettingsAPI('\\settings')">Change Settings</button>
+                                                    </div>
+                                                    <div class="col-md-auto">
+                                                        <button id="loadSettingsBtn" type="button" class="btn btn-primary ml-5" onclick='getSettingsAPI("\\settings")'>Load Current Settings</button>
+                                                    </div>
+                                                </div>   
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md d-flex align-self-center justify-content-center align-items-center">
+                                            <form class="w-50">                                
+                                                <h2 class="mt-5">UI Settings</h2>
+                                                <hr />
+                                                <div class="form-row">
+                                                    <div class="col-md">
+                                                        <div class="form-group">
+                                                            <label for="mapBgColor">Map Background Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="mapBgIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="mapBgColor" placeholder="CSS color" onfocusout='ChangeUI("mapBgColor","mapBgIndicator", "--map-bg-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+                        
+                                                        <div class="form-group">
+                                                            <label for="mapBgColor">Tile Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="tileBgIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="tileBgColor" placeholder="CSS color" onfocusout='ChangeUI("tileBgColor","tileBgIndicator", "--map-tile-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+                        
+                                                        <div class="form-group">
+                                                            <label for="tileSize">Tile Size</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="tileSizeIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="tileSize" placeholder="CSS size" onfocusout='ChangeUI("tileSize","tileSizeIndicator", "--map-tile-size", "")'>
+                                                            </div>
+                                                        </div>
+                        
+                                                        <div class="form-group">
+                                                            <label for="tileGap">Tile Gap</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="tileGapIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="tileGap" placeholder="CSS size" onfocusout='ChangeUI("tileGap","tileGapIndicator", "--map-tile-gap", "")'>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="form-group">
+                                                            <label for="primaryColor">Primary Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="primaryColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="primaryColor" placeholder="CSS size" onfocusout='ChangeUI("primaryColor","primaryColorIndicator", "--primary-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <div class="form-group">
+                                                            <label for="team1Color">Team 1 Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="team1ColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="team1Color" placeholder="CSS color" onfocusout='ChangeUI("team1Color","team1ColorIndicator", "--team-color-1", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="form-group">
+                                                            <label for="team2Color">Team 2 Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="team2ColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="team2Color" placeholder="CSS color" onfocusout='ChangeUI("team2Color","team2ColorIndicator", "--team-color-2", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="form-group">
+                                                            <label for="team3Color">Team 3 Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="team3ColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="team3Color" placeholder="CSS color" onfocusout='ChangeUI("team3Color","team3ColorIndicator", "--team-color-3", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="form-group">
+                                                            <label for="team4Color">Team 4 Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="team4ColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="team4Color" placeholder="CSS color" onfocusout='ChangeUI("team4Color","team4ColorIndicator", "--team-color-4", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+        
+                                                        <div class="form-group">
+                                                            <label for="team5Color">Team 5 Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="team5ColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="team5Color" placeholder="CSS color" onfocusout='ChangeUI("team5Color","team5ColorIndicator", "--team-color-5", "backgroundColor")'>
+                                                            </div>
+                                                        </div>        
+                                                    </div>                                                    
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-md">
+                                                        <div class="form-group">
+                                                            <label for="obsColor">Obstacle Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="obsColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="obsColor" placeholder="CSS color" onfocusout='ChangeUI("obsColor","obsColorIndicator", "--obstacle-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="obsColor">Resource Color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="resColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="resColor" placeholder="CSS color" onfocusout='ChangeUI("resColor","resColorIndicator", "--resource-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="monColor">Monster color</label>
+                                                            <div class="input-group mb-2">
+                                                                <div class="input-group-prepend">
+                                                                  <div id="monColorIndicator" class="input-group-text text-light">&nbsp;&nbsp;&nbsp;</div>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="monColor" placeholder="CSS color" onfocusout='ChangeUI("monColor","monColorIndicator", "--monster-color", "backgroundColor")'>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                        
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">                                       
+                                        <div class="col-md d-flex align-self-center justify-content-center align-items-center">
+                                            <div class="w-50">
+                                                <h2 class="mt-5">List of Maps</h2>
+                                                <hr />
+                                                <button id="loadMapsBtn" class="btn btn-primary mb-3" onclick='getMapsAPI("\\maps")' >Refresh</button>
+                                                <ul id="mapList" class="list-group"></ul>
+                                            </div>                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="row">                                       
+                                        <div class="col-md d-flex align-self-center justify-content-center align-items-center">
+                                            <div class="w-50">
+                                                <h2 class="mt-5">List of Matches</h2>
+                                                <hr />
+                                                <button id="loadMapsBtn" class="btn btn-primary mb-3" onclick='' >Refresh</button>
+                                                <ul id="matchList" class="list-group"></ul>
+                                            </div>                                          
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            
+                              
+                           
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="wasm_exec.js"></script>
+    <script src="script.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!--Plotly JS Framework-->
+    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+
+        $(window).resize(function() {
+            if ($(window).width() < 960) {
+                document.getElementById("sidebar").className = "active";
+            }
+
+        });
+
+
+        /*
+        Example of graph drawing
+
+        TESTER = document.getElementById('resourceGraph');
+
+	    Plotly.newPlot( TESTER, [{
+
+	    y: [1, 2, 4, 8, 16] }], {
+
+	    margin: { t: 0 } } );
+        */
+    </script>
+</body>
+
+</html>
